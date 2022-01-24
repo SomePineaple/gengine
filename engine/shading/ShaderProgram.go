@@ -15,7 +15,7 @@ type ShaderProgram struct {
 	fragmentShaderID uint32
 	vertexShaderID   uint32
 
-	uniforms map[string]int
+	uniforms map[string]int32
 }
 
 // NewShaderProgram Creates a new shader program with the given vertex and fragment shaders
@@ -46,6 +46,20 @@ func NewShaderProgram(vertexShaderCode string, fragmentShaderCode string) (sh *S
 	}
 
 	return sh, nil
+}
+
+// CreateUniform Creates a uniform to be used by the shaders in this shader program
+func (sh *ShaderProgram) CreateUniform(uniformName string) error {
+	cUniformName := gl.Str(uniformName)
+	uniformLocation := gl.GetUniformLocation(sh.programID, cUniformName)
+
+	if uniformLocation < 0 {
+		return fmt.Errorf("could not find uniform: %v", uniformName)
+	}
+
+	sh.uniforms[uniformName] = uniformLocation
+
+	return nil
 }
 
 // Bind Tells opengl to use this shader program

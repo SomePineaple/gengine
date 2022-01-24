@@ -15,6 +15,7 @@ type Window struct {
 	resized bool
 }
 
+// NewWindow Creates a new window
 func NewWindow(title string, width int, height int, vSync bool) (w *Window, err error) {
 	w = &Window{}
 
@@ -51,6 +52,7 @@ func NewWindow(title string, width int, height int, vSync bool) (w *Window, err 
 	return w, nil
 }
 
+// Update Polls events, checks if the window has been resized, and swaps window buffers
 func (w *Window) Update() {
 	glfw.PollEvents()
 
@@ -62,18 +64,32 @@ func (w *Window) Update() {
 	w.window.SwapBuffers()
 }
 
+// SetClearColor Sets the opengl clear color, this is the color shown behind all the stuff being rendered
 func (w *Window) SetClearColor(r float32, g float32, b float32) {
 	gl.ClearColor(r, g, b, 1.0)
 }
 
+// Clear Clears the opengl color buffer and the depth buffer
 func (w *Window) Clear() {
 	gl.Clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
 }
 
+// ShouldClose Returns weather the window should close, returns true when the user clicks the x button
 func (w *Window) ShouldClose() bool {
 	return w.window.ShouldClose()
 }
 
+// Show Shows the window on the screen
+func (w *Window) Show() {
+	w.window.Show()
+}
+
+// Hide Hides the window
+func (w *Window) Hide() {
+	w.window.Hide()
+}
+
+// Destroy Destroys the window
 func (w *Window) Destroy() {
 	w.window.Destroy()
 }
