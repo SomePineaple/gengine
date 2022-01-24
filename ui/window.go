@@ -38,6 +38,10 @@ func NewWindow(title string, width int, height int, vSync bool) (w *Window, err 
 
 	w.window.MakeContextCurrent()
 
+	if vSync {
+		glfw.SwapInterval(1)
+	}
+
 	w.window.SetFramebufferSizeCallback(func(_ *glfw.Window, width int, height int) {
 		w.width = width
 		w.height = height

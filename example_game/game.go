@@ -2,6 +2,7 @@ package example_game
 
 import (
 	"github.com/SomePineaple/gengine/ui"
+	"github.com/SomePineaple/gengine/utils"
 	"log"
 )
 
@@ -34,10 +35,11 @@ func gameLoop() {
 }
 
 func update() {
-
+	utils.PrintErrors()
 }
 
 func render() {
 	window.Clear()
+
 	window.Update()
 }
