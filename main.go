@@ -1,7 +1,7 @@
 package main
 
-import "log"
+import "github.com/SomePineaple/gengine/example_game"
 
 func main() {
-	log.Println("Hello, World!")
+	example_game.StartGame()
 }
