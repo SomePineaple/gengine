@@ -6,13 +6,14 @@ type Mesh struct {
 	vaoID       uint32
 	name        string
 	vboIDList   []uint32
-	vertexCount int
+	vertexCount int32
+	mat         *Material
 }
 
 func NewMesh(vertices []float32, textCoords []float32, normals []float32, indices []int32, name string) *Mesh {
 	mesh := &Mesh{}
 
-	mesh.vertexCount = len(indices)
+	mesh.vertexCount = int32(len(indices))
 
 	gl.GenVertexArrays(1, &mesh.vaoID)
 	gl.BindVertexArray(mesh.vaoID)
@@ -46,6 +47,47 @@ func NewMesh(vertices []float32, textCoords []float32, normals []float32, indice
 	gl.GenBuffers(1, &vboID)
 	mesh.vboIDList = append(mesh.vboIDList, vboID)
 	gl.BindBuffer(gl.ELEMENT_ARRAY_BUFFER, vboID)
+	gl.BufferData(gl.ELEMENT_ARRAY_BUFFER, len(indices)*4, gl.Ptr(indices), gl.STATIC_DRAW)
+	gl.BindBuffer(gl.ELEMENT_ARRAY_BUFFER, 0)
+	gl.BindVertexArray(0)
 
 	return mesh
+}
+
+func (msh *Mesh) Render() {
+	if tex := msh.mat.texture; tex != nil {
+		gl.ActiveTexture(gl.TEXTURE0)
+		gl.BindTexture(gl.TEXTURE_2D, tex.textureID)
+	}
+
+	gl.BindVertexArray(msh.vaoID)
+	gl.EnableVertexAttribArray(0)
+	gl.EnableVertexAttribArray(1)
+	gl.EnableVertexAttribArray(2)
+
+	gl.DrawElements(gl.TRIANGLES, msh.vertexCount, gl.UNSIGNED_INT, nil)
+
+	gl.DisableVertexAttribArray(2)
+	gl.DisableVertexAttribArray(1)
+	gl.DisableVertexAttribArray(0)
+
+	gl.BindVertexArray(0)
+	gl.BindTexture(gl.TEXTURE_2D, 0)
+}
+
+func (msh *Mesh) Destroy() {
+	gl.DisableVertexAttribArray(0)
+
+	gl.BindBuffer(gl.ARRAY_BUFFER, 0)
+
+	for i := 0; i < len(msh.vboIDList); i++ {
+		gl.DeleteBuffers(1, &msh.vboIDList[i])
+	}
+
+	if msh.mat.texture != nil {
+		msh.mat.texture.Destroy()
+	}
+
+	gl.BindVertexArray(0)
+	gl.DeleteVertexArrays(1, &msh.vaoID)
 }
