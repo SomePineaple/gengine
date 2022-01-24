@@ -24,7 +24,7 @@ func NewGameItem(mesh *Mesh) *GameItem {
 
 // Render Draws the game item to the display
 func (gi *GameItem) Render(shaderProgram *shading.ShaderProgram) {
-
+	// TODO: Render game items
 }
 
 // SetPosition Sets the position of the game item

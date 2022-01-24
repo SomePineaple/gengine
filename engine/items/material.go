@@ -10,6 +10,7 @@ type Material struct {
 	texture       *Texture
 }
 
+// NewMaterial Creates a new material with just a white color
 func NewMaterial() *Material {
 	defaultColor := mgl64.Vec4{1.0, 1.0, 1.0, 1.0}
 
