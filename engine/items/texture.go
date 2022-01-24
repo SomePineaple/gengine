@@ -1,4 +1,4 @@
-package mesh
+package items
 
 import (
 	"fmt"

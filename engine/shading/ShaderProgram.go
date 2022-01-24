@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/SomePineaple/gengine/utils"
 	"github.com/go-gl/gl/all-core/gl"
+	"github.com/go-gl/mathgl/mgl32"
 	"strings"
 )
 
@@ -60,6 +61,11 @@ func (sh *ShaderProgram) CreateUniform(uniformName string) error {
 	sh.uniforms[uniformName] = uniformLocation
 
 	return nil
+}
+
+// SetUniform3f Set the value of a uniform of type vec3
+func (sh *ShaderProgram) SetUniform3f(uniformName string, data mgl32.Vec3) {
+	gl.Uniform3f(sh.uniforms[uniformName], data.X(), data.Y(), data.Z())
 }
 
 // Bind Tells opengl to use this shader program

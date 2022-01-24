@@ -1,4 +1,4 @@
-package mesh
+package items
 
 import "github.com/go-gl/gl/all-core/gl"
 
@@ -12,7 +12,7 @@ type Mesh struct {
 	indices []int32
 }
 
-// NewMesh Creates a new mesh with the given vertices, texture coordinates, normals, and indices
+// NewMesh Creates a new items with the given vertices, texture coordinates, normals, and indices
 func NewMesh(vertices []float32, textCoords []float32, normals []float32, indices []int32, name string) *Mesh {
 	mesh := &Mesh{}
 
@@ -61,7 +61,7 @@ func NewMesh(vertices []float32, textCoords []float32, normals []float32, indice
 	return mesh
 }
 
-// Render Draws the mesh to the screen
+// Render Draws the items to the screen
 func (msh *Mesh) Render() {
 	if tex := msh.mat.texture; tex != nil {
 		gl.ActiveTexture(gl.TEXTURE0)
@@ -101,12 +101,12 @@ func (msh *Mesh) Destroy() {
 	gl.DeleteVertexArrays(1, &msh.vaoID)
 }
 
-// SetMaterial Set a custom material for this mesh
+// SetMaterial Set a custom material for this items
 func (msh *Mesh) SetMaterial(mat *Material) {
 	msh.mat = mat
 }
 
-// GetName Returns the name of the mesh
+// GetName Returns the name of the items
 func (msh *Mesh) GetName() string {
 	return msh.name
 }

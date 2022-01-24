@@ -84,12 +84,10 @@ func (w *Window) Show() {
 	w.window.Show()
 }
 
-// Hide Hides the window
 func (w *Window) Hide() {
 	w.window.Hide()
 }
 
-// Destroy Destroys the window
 func (w *Window) Destroy() {
 	w.window.Destroy()
 }

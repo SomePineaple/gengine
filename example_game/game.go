@@ -1,7 +1,7 @@
 package example_game
 
 import (
-	"github.com/SomePineaple/gengine/engine/mesh"
+	"github.com/SomePineaple/gengine/engine/items"
 	"github.com/SomePineaple/gengine/engine/shading"
 	"github.com/SomePineaple/gengine/ui"
 	"github.com/SomePineaple/gengine/utils"
@@ -17,7 +17,7 @@ const (
 	VSync        = true
 )
 
-var triangle *mesh.Mesh
+var triangle *items.Mesh
 var shaderProgram *shading.ShaderProgram
 
 func StartGame() {
@@ -30,7 +30,7 @@ func StartGame() {
 
 	window.SetClearColor(0.4, 0.3, 0.7)
 
-	triangle = mesh.NewMesh([]float32{
+	triangle = items.NewMesh([]float32{
 		0.0, 0.5, 0.0,
 		-0.5, -0.5, 0.0,
 		0.5, -0.5, 0.0,

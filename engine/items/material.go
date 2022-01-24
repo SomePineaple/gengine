@@ -1,4 +1,4 @@
-package mesh
+package items
 
 import "github.com/go-gl/mathgl/mgl64"
 
