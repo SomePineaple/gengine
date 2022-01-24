@@ -8,10 +8,17 @@ type Mesh struct {
 	vboIDList   []uint32
 	vertexCount int32
 	mat         *Material
+
+	indices []int32
 }
 
+// NewMesh Creates a new mesh with the given vertices, texture coordinates, normals, and indices
 func NewMesh(vertices []float32, textCoords []float32, normals []float32, indices []int32, name string) *Mesh {
 	mesh := &Mesh{}
+
+	mesh.name = name
+	mesh.mat = NewMaterial()
+	mesh.indices = indices
 
 	mesh.vertexCount = int32(len(indices))
 
@@ -25,7 +32,7 @@ func NewMesh(vertices []float32, textCoords []float32, normals []float32, indice
 	gl.BindBuffer(gl.ARRAY_BUFFER, vboID)
 	gl.BufferData(gl.ARRAY_BUFFER, len(vertices)*4, gl.Ptr(vertices), gl.STATIC_DRAW)
 	gl.EnableVertexAttribArray(0)
-	gl.VertexAttribPointer(1, 2, gl.FLOAT, false, 0, nil)
+	gl.VertexAttribPointer(0, 2, gl.FLOAT, false, 0, nil)
 
 	// Texture coordinates VBO
 	gl.GenBuffers(1, &vboID)
@@ -54,6 +61,7 @@ func NewMesh(vertices []float32, textCoords []float32, normals []float32, indice
 	return mesh
 }
 
+// Render Draws the mesh to the screen
 func (msh *Mesh) Render() {
 	if tex := msh.mat.texture; tex != nil {
 		gl.ActiveTexture(gl.TEXTURE0)
@@ -65,7 +73,7 @@ func (msh *Mesh) Render() {
 	gl.EnableVertexAttribArray(1)
 	gl.EnableVertexAttribArray(2)
 
-	gl.DrawElements(gl.TRIANGLES, msh.vertexCount, gl.UNSIGNED_INT, nil)
+	gl.DrawElements(gl.TRIANGLES, msh.vertexCount, gl.UNSIGNED_INT, gl.Ptr(msh.indices))
 
 	gl.DisableVertexAttribArray(2)
 	gl.DisableVertexAttribArray(1)
@@ -75,6 +83,7 @@ func (msh *Mesh) Render() {
 	gl.BindTexture(gl.TEXTURE_2D, 0)
 }
 
+// Destroy Deletes all the connected vertex buffers, and the vertex array.
 func (msh *Mesh) Destroy() {
 	gl.DisableVertexAttribArray(0)
 
@@ -90,4 +99,14 @@ func (msh *Mesh) Destroy() {
 
 	gl.BindVertexArray(0)
 	gl.DeleteVertexArrays(1, &msh.vaoID)
+}
+
+// SetMaterial Set a custom material for this mesh
+func (msh *Mesh) SetMaterial(mat *Material) {
+	msh.mat = mat
+}
+
+// GetName Returns the name of the mesh
+func (msh *Mesh) GetName() string {
+	return msh.name
 }
