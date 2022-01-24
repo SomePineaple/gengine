@@ -1,7 +1,6 @@
 package engine
 
 import (
-	"github.com/SomePineaple/gengine/utils"
 	"github.com/go-gl/mathgl/mgl32"
 	"math"
 )
@@ -29,13 +28,13 @@ func (c *Camera) SetPosition(x, y, z float32) {
 // MovePosition Moves the camera, X is forward/backward, Y is up/down, and Z is side to side.
 func (c *Camera) MovePosition(offsetX, offsetY, offsetZ float32) {
 	if offsetZ != 0 {
-		c.position[0] += float32(math.Sin(utils.ToRadians(float64(c.rotation.Y())))) * -1.0 * offsetZ
-		c.position[2] += float32(math.Cos(utils.ToRadians(float64(c.rotation.Y())))) * offsetZ
+		c.position[0] += float32(math.Sin(float64(mgl32.DegToRad(c.rotation.Y())))) * -1.0 * offsetZ
+		c.position[2] += float32(math.Cos(float64(mgl32.DegToRad(c.rotation.Y())))) * offsetZ
 	}
 
 	if offsetX != 0 {
-		c.position[0] += float32(math.Sin(utils.ToRadians(float64(c.rotation.Y()-90)))) * -1.0 * offsetX
-		c.position[2] += float32(math.Cos(utils.ToRadians(float64(c.rotation.Y()-90)))) * offsetX
+		c.position[0] += float32(math.Sin(float64(mgl32.DegToRad(c.rotation.Y()-90)))) * -1.0 * offsetX
+		c.position[2] += float32(math.Cos(float64(mgl32.DegToRad(c.rotation.Y()-90)))) * offsetX
 	}
 
 	c.position[1] += offsetY
