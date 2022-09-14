@@ -5,8 +5,8 @@ import (
 	"github.com/SomePineaple/gengine/engine/shading"
 	"github.com/SomePineaple/gengine/ui"
 	"github.com/SomePineaple/gengine/utils"
-	"io/ioutil"
 	"log"
+	"os"
 )
 
 var window *ui.Window
@@ -43,12 +43,12 @@ func StartGame() {
 	}, "triangle")
 	defer triangle.Destroy()
 
-	vertexShader, err := ioutil.ReadFile("data/example_game/shaders/basic.vsh")
+	vertexShader, err := os.ReadFile("data/example_game/shaders/basic.vsh")
 	if err != nil {
 		log.Fatalln("Could not get vertex shader code:", err)
 	}
 
-	fragmentShader, err := ioutil.ReadFile("data/example_game/shaders/basic.fsh")
+	fragmentShader, err := os.ReadFile("data/example_game/shaders/basic.fsh")
 	if err != nil {
 		log.Fatalln("Could not get fragment shader code:", err)
 	}
